@@ -3,6 +3,27 @@ const Cart = require("../models/cart.model");
 
 const router = Router();
 
+// GET api/cart/:cid
+router.get("/:cid", async (req, res) => {
+    const { cid } = req.params;
+    console.log("Received GET request for cart ID:", cid); // Agregar este registro
+
+    try {
+        const cart = await Cart.findById(cid);
+
+        if (!cart) {
+            return res.status(404).send({ status: "error", error: "Carrito no encontrado" });
+        }
+
+        res.send({ result: "success", payload: cart });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ status: "error", error: "Error en la obtención del carrito" });
+    }
+});
+
+
+
 // POST api/carts/:cid/products
 router.post("/:cid/products", async (req, res) => {
     const { cid } = req.params;

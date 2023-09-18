@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
         }
 
         if (availability) {
-            filters.availability = availability === "true"; // Convierte la cadena en un booleano
+            filters.availability = availability === "true"; // Convert the string to a boolean
         }
 
         if (sort === "asc" || sort === "desc") {
@@ -46,7 +46,7 @@ router.get("/", async (req, res) => {
             ? `/products?limit=${limitInt}&page=${pageInt + 1}&sort=${sort}&category=${category}&availability=${availability}`
             : null;
 
-        res.send({
+        res.status(200).json({
             status: "success",
             payload: products,
             totalPages,
@@ -60,7 +60,7 @@ router.get("/", async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).send({ status: "error", error: "Error en la obtención de productos" });
+        res.status(500).json({ status: "error", error: "Error en la obtención de productos" });
     }
 });
 
@@ -72,26 +72,26 @@ router.get("/:id", async (req, res) => {
         const product = await productModel.findById(id);
 
         if (!product) {
-            return res.status(404).send({ status: "error", error: "Producto no encontrado" });
+            return res.status(404).json({ status: "error", error: "Producto no encontrado" });
         }
 
-        res.send({ status: "success", payload: product });
+        res.status(200).json({ status: "success", payload: product });
     } catch (error) {
         console.error(error);
-        res.status(500).send({ status: "error", error: "Error en la obtención del producto por ID" });
+        res.status(500).json({ status: "error", error: "Error en la obtención del producto por ID" });
     }
 });
 
 // POST /products
 router.post("/", async (req, res) => {
-    const productData = req.body; // El cuerpo de la solicitud contiene los datos del producto
+    const productData = req.body; // The request body contains the product data
 
     try {
         const result = await productModel.create(productData);
-        res.status(201).send({ result: "success", payload: result });
+        res.status(201).json({ status: "success", payload: result });
     } catch (error) {
         console.error(error);
-        res.status(500).send({ status: "error", error: "Error en la creación del producto" });
+        res.status(500).json({ status: "error", error: "Error en la creación del producto" });
     }
 });
 
@@ -103,12 +103,12 @@ router.put("/:id", async (req, res) => {
     try {
         const result = await productModel.findByIdAndUpdate(id, productData);
         if (!result) {
-            return res.status(404).send({ status: "error", error: "Producto no encontrado" });
+            return res.status(404).json({ status: "error", error: "Producto no encontrado" });
         }
-        res.send({ result: "success", payload: result });
+        res.status(200).json({ status: "success", payload: result });
     } catch (error) {
         console.error(error);
-        res.status(500).send({ status: "error", error: "Error en la actualización del producto" });
+        res.status(500).json({ status: "error", error: "Error en la actualización del producto" });
     }
 });
 
@@ -119,12 +119,12 @@ router.delete("/:id", async (req, res) => {
     try {
         const result = await productModel.findByIdAndDelete(id);
         if (!result) {
-            return res.status(404).send({ status: "error", error: "Producto no encontrado" });
+            return res.status(404).json({ status: "error", error: "Producto no encontrado" });
         }
-        res.send({ result: "success", payload: result });
+        res.status(200).json({ status: "success", payload: result });
     } catch (error) {
         console.error(error);
-        res.status(500).send({ status: "error", error: "Error en la eliminación del producto" });
+        res.status(500).json({ status: "error", error: "Error en la eliminación del producto" });
     }
 });
 

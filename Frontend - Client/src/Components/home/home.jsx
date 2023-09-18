@@ -1,16 +1,15 @@
 import React from 'react'
-import { Link } from "react-router-dom";
 
-const cart = () => {
+const home = () => {
   return (
     <div>
       <div className="container">
 
-        cart
+        E-commerce
       </div>
-        
+
     </div>
   )
 }
 
-export default cart
+export default home

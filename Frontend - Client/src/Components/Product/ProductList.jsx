@@ -60,7 +60,7 @@ export default class ProductList extends Component {
                 <Card.Body>
                   <Card.Title>{product.title}</Card.Title>
                 </Card.Body>
-                <Link to={`/${product._id}`}>
+                <Link to={`/products/${product._id}`}>
                   <Button variant="secondary">More details</Button>
                 </Link>
               </Card>
